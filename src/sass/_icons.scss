@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Font icons
+   ========================================================================== */
+
+
+@font-face {
+  font-family: 'font-icons';
+  src:  url('../../build/fonts/font-icons.eot?fhst4c');
+  src:  url('../../build/fonts/font-icons.eot?fhst4c#iefix') format('embedded-opentype'),
+    url('../../build/fonts/font-icons.ttf?fhst4c') format('truetype'),
+    url('../../build/fonts/font-icons.woff?fhst4c') format('woff'),
+    url('../../build/fonts/font-icons.svg?fhst4c#font-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'font-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-mail:before {
+  content: "\e002";
+}
+.icon-layout:before {
+  content: "\e004";
+}
+.icon-link:before {
+  content: "\e005";
+}
+.icon-heart:before {
+  content: "\e024";
+}
+.icon-layers:before {
+  content: "\e031";
+}
+.icon-search:before {
+  content: "\e036";
+}
+.icon-circle-cross:before {
+  content: "\e043";
+}
+.icon-square-cross:before {
+  content: "\e047";
+}
+.icon-map:before {
+  content: "\e072";
+}
+.icon-head:before {
+  content: "\e074";
+}
+.icon-briefcase:before {
+  content: "\e075";
+}
+.icon-speech-bubble:before {
+  content: "\e076";
+}
+.icon-star:before {
+  content: "\e093";
+}
+.icon-arrow-up:before {
+  content: "\e096";
+}
+.icon-grid:before {
+  content: "\e102";
+}
+.icon-cross:before {
+  content: "\e117";
+}
+.icon-menu:before {
+  content: "\e120";
+}
+.icon-outbox:before {
+  content: "\e123";
+}
+

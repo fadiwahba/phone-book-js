@@ -1,0 +1,85 @@
+/* GRID system based on 12 columns */
+
+.container {
+  width: 960px;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+}
+
+.container-fluid {
+  width: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+}
+
+.cell-padding {
+  padding: 15px;
+}
+
+.cell-alpha {
+  padding-left: 0;
+}
+
+.cell-omega {
+  padding-right: 0;
+}
+
+
+/* For mobile phones: */
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+[class*="cell-"] {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  
+  [class*="cell-"] {
+    position: relative;
+  }
+  .cell-1 {
+    width: 8.33%;
+  }
+  .cell-2 {
+    width: 16.66%;
+  }
+  .cell-3 {
+    width: 25%;
+  }
+  .cell-4 {
+    width: 33.33%;
+  }
+  .cell-5 {
+    width: 41.66%;
+  }
+  .cell-6 {
+    width: 50%;
+  }
+  .cell-7 {
+    width: 58.33%;
+  }
+  .cell-8 {
+    width: 66.66%;
+  }
+  .cell-9 {
+    width: 75%;
+  }
+  .cell-10 {
+    width: 83.33%;
+  }
+  .cell-11 {
+    width: 91.66%;
+  }
+  .cell-12 {
+    width: 100%;
+  }
+}

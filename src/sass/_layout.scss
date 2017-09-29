@@ -1,0 +1,243 @@
+// /*! HTML5 Boilerplate v5.0 | MIT License | http://h5bp.com/ */
+
+/*
+  MIXINS
+*/
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin transition ($attr, $time, $effect) {
+  -moz-transition: $attr $time $effect;
+  -webkit-transition: $attr $time $effect;
+  -ms-transition: $attr $time $effect;
+  transition: $attr $time $effect;
+}
+
+@mixin scale-rotate {
+  -moz-transform: rotate(-10deg) scale(1.2);
+  -webkit-transform: rotate(-10deg) scale(1.2);
+  -ms-transform: rotate(-10deg) scale(1.2);
+  transform: rotate(-10deg) scale(1.2);
+}
+
+@mixin scale {
+  -moz-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+// box sizing
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #222;
+  padding: 1em;
+  background: #f5f5f5; // background: linear-gradient(90deg,rgba(255, 112, 67, 0.25),rgba(38, 198, 218, 0.25));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0.5em 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+a:link,
+a:visited {
+  color: $gold;
+  text-decoration: none;
+  cursor: pointer;
+  @include transition(all, .3s, ease-in-out);
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+// selection
+::-moz-selection {
+  background: $dark-red;
+  text-shadow: none;
+}
+
+::selection {
+  background: $dark-red;
+  text-shadow: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+// form input
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form select,
+form textarea {
+  border: 1px solid #fff;
+  background: #f0f0f0;
+  color: $dark-gray;
+  display: block;
+  outline: 0;
+  text-decoration: none;
+  padding: 0.75em;
+  width: 100%;
+  @include border-radius(5px);
+  @include transition(all, .3s, ease-in-out);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  background: white; // color: $gold;
+}
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.loader-wrapper {
+  text-align: center;
+  background-color: #000;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  .loader {
+    position: absolute;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -25px;
+    border: 4px solid #fff;
+    top: 50%;
+    border: 3px solid;
+    border-radius: 100%;
+    border-color: $gold;
+    border-bottom-width: 0;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    animation: loader 0.8s linear infinite;
+  }
+}
+
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// /* ==========================================================================
+//    Helper classes
+//    ========================================================================== */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+.message {
+  padding: 1em;
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+
+.message.success {
+  background: $successBG;
+  color: $successColor;
+}
+
+.message.danger {
+  background: $dangerBG;
+  color: $dangerColor;
+}
