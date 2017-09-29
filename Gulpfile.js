@@ -39,10 +39,8 @@ gulp.task('script', function () {
   gulp.src(
       [
         /* Add your JS files here, they will be combined in this order */
-        './src/scripts/vendor/jquery-1.11.2.js',
-        './src/scripts/plugins.js',
-        './src/scripts/main.js',
-
+        './src/scripts/phonebook.js',
+        './src/scripts/main.js'
       ]
       // 'src/scripts/**/*.js'
     )
@@ -100,7 +98,7 @@ gulp.task('default', ['index', 'sass', 'script', 'font', 'browser-sync'], functi
   /* Watch scss, run the sass task on change. */
   gulp.watch(['./src/sass/*.scss', 'src/sass/**/*.scss'], ['sass'])
   /* Watch main.js file, run the scripts task on change. */
-  gulp.watch(['./src/scripts/main.js'], ['script'])
+  gulp.watch(['./src/scripts/*.js'], ['script'])
   /* Watch font files, run the font task on change. */
   gulp.watch(['./src/fonts/*'], ['font'])
   /* Watch .html files, run the bs-reload task on change. */
