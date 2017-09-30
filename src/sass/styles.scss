@@ -1,15 +1,15 @@
-/* ==========================================================================
-   Vendor fonts
-   ========================================================================== */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:100,300,400,700,900');
+// my custom styles goes here
+body {
+    background: f0f0f0;
+}
 
-/* ==========================================================================
-   Init
-   ========================================================================== */
+#app {
+    padding: 2em 0 0 0;
+}
+#previousBtn {
+    float: left;
+}
 
-@import "normalize";
-@import "grid";
-@import "variables";
-@import "layout";
-@import "print";
+#nextBtn {
+    float: right;
+}

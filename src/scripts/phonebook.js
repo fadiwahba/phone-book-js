@@ -1,112 +1,135 @@
+// PhoneBook Class
 
-var PhoneBook = function (contacts) {
-    if (!contacts || contacts.length === 0) {
-        this.throwError('You cannot initialize an empty phonebook');
+var PhoneBook = function (contactList) {
+    if (!contactList || contactList.length === 0) {
+        console.log('You just initialized an empty phonebook!');
     }
-    this.contacts = contacts;
-    this.currentCapacity = this.contacts.length;
-    this.maxLength = 6;
 
-    // sort alphabitically
-    this.sort(this.contacts);
+    ////////// private properties
 
+    var contacts = contactList;
+    // console.log('Original contact');
+    // console.table(contacts);
+    var currentCapacity = contacts.length;
+    var maxLength = 10000;
     var filteredContacts = [];
+    var defaultContactsPerPage = 10;
+    var defaultPage = 1;
 
-}
+    ////////// private methods
 
-PhoneBook.prototype = {
-    add: function (contactInfo) {
-        if (contactInfo) {
-            if (this.isFull()) {
-                this.validateContact(contactInfo);
-                this.contacts.push(contactInfo);
-                this.updateState();
-            } else {
-                this.throwError('Max Number of contacts reached, Sorry you cannot add more contacts');
-            }
-        }
-        else {
-            this.throwError('empty parameter!', contactInfo);
-        }
-    },
-    remove: function (index) {
-        if (index) {
-            this.contacts.splice(index, 1)
-            this.updateState();
-        }
-    },
-    search: function (query) {
-        if (query === '') {
-            return this.contacts;
-        } else {
-            this.filteredContacts = this.contacts.filter(function (contact) {
-                console.log('contact.name: ', contact.name);
-                return contact.name === query || contact.phone === query;
+    // Function creats pagination, return array
+    var paginate = function (array, itemsPerPage, page) {
+        --page; // pages should start with 1, but arrays in javascript starts with 0
+        return array.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
+    };
+
+    // sort contacts by name
+    var sortAlphabetically = function (arrContacts) {
+        if (arrContacts && arrContacts.length > 0) {
+            arrContacts.sort(function (a, b) {
+                var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0; //default return value (no sorting)
             });
-            // this.sort(this.filteredContacts);
-            console.table(this.filteredContacts);
-            return this.filteredContacts;
         }
-    },
-    list: function (contactsPerPage, page) {
-        if (!contactsPerPage && !page) {
-            console.table(this.contacts);
-            return this.contacts;
-        } else {
-            var result = this.paginate(this.contacts, contactsPerPage, page);
-            console.table(result);
-            return result;
-        }
-    },
-    sort: function (data) {
-        if (data) {
-            data = data.sort(function (a, b) {
-                return a.name.toLowerCase() > b.name.toLowerCase();
-            });
-        } else {
-            return this.throwError('empty parameter!', data);
-        }
-    },
-    isFull: function () {
-        if (this.currentCapacity < this.maxLength) {
+    }
+    sortAlphabetically(contacts);
+    // console.log('contact after sort');
+    // console.table(contacts);
+
+    // checks if the phonebook can accept more contacts, return boolean
+    var isFull = function () {
+        if (currentCapacity < maxLength) {
             return true;
         } else {
             return false;
         }
-    },
-    updateState: function () {
-        this.currentCapacity = this.contacts.length;
-        this.sort(this.contacts);
-        console.log('State updated:')
-        console.table(this.contacts);
-    },
-    validateContact: function (contactInfo) {
+    };
+
+    var updateState = function () {
+        currentCapacity = contacts.length;  // needed each time after calling add()
+        // if (contacts.length > 0) {
+        //     sortAlphabetically(contacts);   // needed to sort the new updated contacts
+        // }
+        console.log('State updated:');
+        console.dir(contacts);
+    };
+
+    ////////// public methods
+
+    // list all contacts or some contacts in pages, return array
+    this.list = function (contactsPerPage, page) {
+        var paginatedResult;
+        if (!contactsPerPage && !page) {
+            // return default contacts;
+            paginatedResult = paginate(contacts, defaultContactsPerPage, defaultPage);
+            // sortAlphabetically(paginatedResult);
+            return paginatedResult;
+        } else {
+            paginatedResult = paginate(contacts, contactsPerPage, page);
+            // sortAlphabetically(paginatedResult);
+            return paginatedResult;
+        }
+    };
+
+    // add new contact to the phonebook, receives an object param {name, email, phone}
+    this.add = function (contactInfo) {
         if (contactInfo) {
-            // validate name length: should not exceed 100 chars
-            if (contactInfo.name.length > 99) {
-                this.throwError('Name cannot be more than 100 characters');
-            }
-
-            // validate phone number
-            var phonePattern = /^\d{2}-\d{3}-\d{4}$/;
-            var phoneResult = phonePattern.test(contactInfo.phone);
-            if (!phoneResult) {
-                this.throwError('Invalid Phone Number! Please enter a correct number (ex: 22-333-4444)');
-            }
-
-            // validate email number
-            var emailPattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-            var emailResult = emailPattern.test(contactInfo.email);
-            if (!emailResult) {
-                this.throwError('Invalid email format! Please add a correct email (ex: john@doe.com)');
+            if (isFull()) {
+                contacts.push(contactInfo);
+                updateState();
+                sortAlphabetically(contacts);
+            } else {
+                console.log('Max Number of contacts reached, Sorry you cannot add more contacts');
             }
         }
-    },
-    paginate: function (array, itemsPerPage, page) {
-        --page; // pages should start with 1, but arrays in javascript starts with 0
-        return array.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
-    },
-    throwError: function (message) {
-        throw new Error(message);
-    }
+        else {
+            console.log('empty parameter!', contactInfo);
+        }
+
+    };
+
+    // removes a contact by index and update the state
+    this.remove = function (index) {
+        if (typeof index === 'number') {
+            contacts.splice(index, 1)
+            updateState();
+        }
+    };
+
+    this.search = function (query) {
+        if (query === '') {
+            var paginatedResult = paginate(contacts, defaultContactsPerPage, defaultPage);
+            return paginatedResult;
+        } else {
+            filteredContacts = contacts.filter(function (contact) {
+                return contact.name.toLowerCase() === query.toLowerCase() || contact.phone.toLowerCase() === query.toLowerCase();
+            });
+            return filteredContacts;
+        }
+    };
+
+    // get defaultContactsPerPage
+    this.getDefaultContactsPerPage = function () {
+        return defaultContactsPerPage;
+    };
+
+    // get defaultContactsPerPage
+    this.getPhonebookCapacity = function () {
+        return currentCapacity;
+    };
 };
+
+
+PhoneBook.prototype.toString = function () {
+    var result = '';
+    var contacts = this.list();
+    contacts.forEach(function (element) {
+        result += element.name + ', ' + element.phone + ', ' + element.email + '\n';
+    });
+    return result;
+}

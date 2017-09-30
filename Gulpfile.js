@@ -67,6 +67,12 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(buildFolder + 'css'))
 });
 
+// build assets
+gulp.task('assets', function () {
+  gulp.src('./src/assets/*.*')
+    .pipe(gulp.dest(buildFolder + 'assets'));
+});
+
 // build index.html
 gulp.task('index', function () {
   gulp.src('./*.html')
@@ -81,12 +87,6 @@ gulp.task('bs-reload', function () {
 /* Prepare Browser-sync for localhost */
 gulp.task('browser-sync', function () {
   browserSync.init([buildFolder + 'css/*.css', buildFolder + 'js/*.js'], {
-    /*
-    I like to use a vhost, WAMP guide: https://www.kristengrote.com/blog/articles/how-to-set-up-virtual-hosts-using-wamp, XAMP guide: http://sawmac.com/xampp/virtualhosts/
-    */
-    // proxy: 'your_dev_site.url'
-    /* For a static server you would use this: */
-
     server: {
       baseDir: buildFolder
     }
@@ -94,13 +94,15 @@ gulp.task('browser-sync', function () {
 });
 
 /* Watch scss, js and html files, doing different things with each. */
-gulp.task('default', ['index', 'sass', 'script', 'font', 'browser-sync'], function () {
+gulp.task('default', ['index', 'assets', 'sass', 'script', 'font', 'browser-sync'], function () {
   /* Watch scss, run the sass task on change. */
   gulp.watch(['./src/sass/*.scss', 'src/sass/**/*.scss'], ['sass'])
   /* Watch main.js file, run the scripts task on change. */
   gulp.watch(['./src/scripts/*.js'], ['script'])
   /* Watch font files, run the font task on change. */
   gulp.watch(['./src/fonts/*'], ['font'])
+  /* watch assets */
+  gulp.watch(['./src/assets/*'], ['assets'])
   /* Watch .html files, run the bs-reload task on change. */
   gulp.watch(['*.html'], ['index', 'bs-reload']);
 });
