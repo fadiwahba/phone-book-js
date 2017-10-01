@@ -156,10 +156,10 @@ var APP = (function (window, undefined) {
                     '<td class="contact-name">' + contact.name + '</td>' +
                     '<td class="contact-phone">' + contact.phone + '</td>' +
                     '<td class="contact-email">' + contact.email + '</td>' +
-                    '<td class="contact-remove"><button type="button" class="btn btn-danger btn-sm btn-remove"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>' +
+                    '<td class="contact-action"><button type="button" class="btn btn-danger btn-sm btn-remove"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>' +
                     '</tr>';
             });
-            appContent.innerHTML = '<table class="table table-striped"><thead><tr><th>Index</th><th>Name</th><th>Phone</th><th>Email</th><th>Action</th></tr></thead><tbody>' + htmlTemplate + '</tbody></table>';
+            appContent.innerHTML = '<table class="table table-striped"><thead><tr><th class="contact-index">Index</th><th class="contact-name">Name</th><th class="contact-phone">Phone</th><th class="contact-email">Email</th><th class="contact-action">Action</th></tr></thead><tbody>' + htmlTemplate + '</tbody></table>';
         }
         else {
             appContent.innerHTML = 'Sorry, Data not found yet! Keep typing or check spelling.';
