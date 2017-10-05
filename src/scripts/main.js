@@ -13,9 +13,9 @@
 */
 
 var APP = (function (window, undefined) {
-
-    ////////// cache the DOM
+    
     var phoneBook;
+    ////////// cache the DOM
     var appContent = document.getElementById('app-content');
     var contactName = document.getElementById('contactName');
     var contactPhone = document.getElementById('contactPhone');
@@ -27,6 +27,8 @@ var APP = (function (window, undefined) {
     var nextBtn = document.getElementById('nextBtn');
 
     var page = 1;
+    var dataURL = '/assets/mock-data.json';
+    // var dataURL = '/assets/test.json';
 
 
     ////////// callbacks
@@ -46,7 +48,8 @@ var APP = (function (window, undefined) {
             phoneBook.add(newContact);
 
             // re-render the view
-            render(phoneBook.list());
+            // render(phoneBook.list());
+            render(phoneBook.getPage());
 
             // reset form values
             clearForm();
@@ -59,7 +62,7 @@ var APP = (function (window, undefined) {
             event.preventDefault();
             var index = event.target.parentElement.parentElement.children[0].innerText;
             phoneBook.remove(parseInt(index, 10));
-            render(phoneBook.list());
+            render(phoneBook.getPage());
         }
     }
 
@@ -77,7 +80,8 @@ var APP = (function (window, undefined) {
         event.preventDefault();
         page--;
         var defaultContacts = phoneBook.getDefaultContactsPerPage();
-        var result = phoneBook.list(defaultContacts, page);
+        // var result = phoneBook.list(defaultContacts, page);
+        var result = phoneBook.getPage(page);
         nextBtn.disabled = false;
         render(result);
         if (page === 1) {
@@ -93,7 +97,8 @@ var APP = (function (window, undefined) {
         console.log('totalPages:', totalPages);
 
         page++;
-        var result = phoneBook.list(defaultContacts, page);
+        // var result = phoneBook.list(defaultContacts, page);
+        var result = phoneBook.getPage(page);
         previousBtn.disabled = false;
         render(result);
         if (page >= totalPages) {
@@ -195,13 +200,14 @@ var APP = (function (window, undefined) {
     var init = function () {
         console.log('App initialized');
         // get data by ajax
-        loadData('/assets/mock-data.json', function (data) {
+        loadData(dataURL, function (data) {
             // parse json data
             var data = JSON.parse(data.responseText); // 40 records for testing
             // instantiate an object from our PhoneBook class
             phoneBook = new PhoneBook(data);
             // render data
-            render(phoneBook.list());
+            // render(phoneBook.list());
+            render(phoneBook.getPage());
         });
     }
 

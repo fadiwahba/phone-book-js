@@ -11,12 +11,22 @@ var PhoneBook = function (contactList) {
     // console.log('Original contact');
     // console.table(contacts);
     var currentCapacity = contacts.length;
-    var maxLength = 10000;
+    var maxLength = 10000; // 10000
     var filteredContacts = [];
-    var defaultContactsPerPage = 10;
+    var defaultContactsPerPage = 10; // default is 10
     var defaultPage = 1;
+    this.pages = [];
 
     ////////// private methods
+
+    // create pages of contacts
+    var createPages = function (items, itemsPerPage) {
+        var pages = [], i, length = items.length;
+        for (i = 0; i < length; i += itemsPerPage) {
+            pages.push(items.slice(i, i + itemsPerPage));
+        }
+        return pages;
+    };
 
     // Function creats pagination, return array
     var paginate = function (array, itemsPerPage, page) {
@@ -37,9 +47,6 @@ var PhoneBook = function (contactList) {
             });
         }
     }
-    sortAlphabetically(contacts);
-    // console.log('contact after sort');
-    // console.table(contacts);
 
     // checks if the phonebook can accept more contacts, return boolean
     var isFull = function () {
@@ -52,27 +59,27 @@ var PhoneBook = function (contactList) {
 
     var updateState = function () {
         currentCapacity = contacts.length;  // needed each time after calling add()
-        // if (contacts.length > 0) {
-        //     sortAlphabetically(contacts);   // needed to sort the new updated contacts
-        // }
-        console.log('State updated:');
-        console.dir(contacts);
+        // console.log('State updated:');
+        // console.dir(contacts);
     };
+
+    // initial sorting
+    sortAlphabetically(contacts);
+    // initial pages
+    this.pages = createPages(contacts, defaultContactsPerPage);
 
     ////////// public methods
 
-    // list all contacts or some contacts in pages, return array
-    this.list = function (contactsPerPage, page) {
-        var paginatedResult;
-        if (!contactsPerPage && !page) {
-            // return default contacts;
-            paginatedResult = paginate(contacts, defaultContactsPerPage, defaultPage);
-            // sortAlphabetically(paginatedResult);
-            return paginatedResult;
+    // get a page of contacts, return array
+    this.getPage = function(pageNumber) {
+        if(!pageNumber) {
+            return this.pages[defaultPage - 1];  // return a default page
+        }
+        if(pageNumber >= 1 && pageNumber <= this.pages.length) { // because in real life pages starts with 1 not like JS arrays which is zero-based
+            return this.pages[pageNumber - 1];
         } else {
-            paginatedResult = paginate(contacts, contactsPerPage, page);
-            // sortAlphabetically(paginatedResult);
-            return paginatedResult;
+            console.log('Sorry, this page is not found!');
+            return;
         }
     };
 
@@ -83,6 +90,7 @@ var PhoneBook = function (contactList) {
                 contacts.push(contactInfo);
                 updateState();
                 sortAlphabetically(contacts);
+                this.pages = createPages(contacts, defaultContactsPerPage);
             } else {
                 console.log('Max Number of contacts reached, Sorry you cannot add more contacts');
             }
@@ -98,13 +106,14 @@ var PhoneBook = function (contactList) {
         if (typeof index === 'number') {
             contacts.splice(index, 1)
             updateState();
+            sortAlphabetically(contacts);
+            this.pages = createPages(contacts, defaultContactsPerPage);
         }
     };
 
     this.search = function (query) {
         if (query === '') {
-            var paginatedResult = paginate(contacts, defaultContactsPerPage, defaultPage);
-            return paginatedResult;
+            return this.getPage();
         } else {
             filteredContacts = contacts.filter(function (contact) {
                 return contact.name.toLowerCase() === query.toLowerCase() || contact.phone.toLowerCase() === query.toLowerCase();
