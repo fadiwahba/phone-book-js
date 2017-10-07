@@ -193,7 +193,7 @@ var APP = (function (window, undefined) {
                 }
             }
         };
-        xhttp.open("GET", url, true);
+        xhttp.open("GET", url, false);
         xhttp.send();
     }
 
